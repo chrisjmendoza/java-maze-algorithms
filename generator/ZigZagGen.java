@@ -27,7 +27,7 @@ public class ZigZagGen {
 	private final Queue<Cell> queue;
 	private Cell current, goal;
 	private final List<Cell> grid;
-	private List<Cell> notInMaze = new ArrayList<Cell>();
+	private List<Cell> notInMaze = new ArrayList<>();
 	private final Random r = new Random();
 
 	public ZigZagGen(List<Cell> grid, MazeGridPanel panel) {
@@ -35,26 +35,23 @@ public class ZigZagGen {
 		goal = grid.get(r.nextInt(grid.size()));
 		goal.setVisited(true);
 		
-		queue = new PriorityQueue<Cell>(new CellDistanceFromGoalComparator());
+		queue = new PriorityQueue<>(new CellDistanceFromGoalComparator());
 		current = grid.get(r.nextInt(grid.size()));
 		queue.offer(current);
 		
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	

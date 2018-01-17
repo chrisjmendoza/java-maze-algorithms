@@ -15,8 +15,8 @@ import util.Cell;
 public class MazeGridPanel extends JPanel {
 
 	private static final long serialVersionUID = 7237062514425122227L;
-	private final List<Cell> grid = new ArrayList<Cell>();
-	private List<Cell> currentCells = new ArrayList<Cell>();
+	private final List<Cell> grid = new ArrayList<>();
+	private List<Cell> currentCells = new ArrayList<>();
 
 	public MazeGridPanel(int rows, int cols) {
 		for (int x = 0; x < rows; x++) {
@@ -54,14 +54,14 @@ public class MazeGridPanel extends JPanel {
 			new GrowingTreeGen(grid, this);
 			break;
 		case 6:
-			new HoustonGen(grid, this);;
-			break;
+			new HoustonGen(grid, this);
+            break;
 		case 7:
 			new HuntAndKillGen(grid, this);
 			break;
 		case 8:
-			new KruskalsGen(grid, this);;
-			break;
+			new KruskalsGen(grid, this);
+            break;
 		case 9:
 			new PrimsGen(grid, this);
 			break;

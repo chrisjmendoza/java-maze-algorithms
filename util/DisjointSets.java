@@ -16,15 +16,15 @@ import java.util.Set;
 
 public class DisjointSets {
 
-	private List<Map<Integer, Set<Integer>>> disjointSet;
+	private final List<Map<Integer, Set<Integer>>> disjointSet;
 
 	public DisjointSets() {
-		disjointSet = new ArrayList<Map<Integer, Set<Integer>>>();
+		disjointSet = new ArrayList<>();
 	}
 
 	public void create_set(int element) {
-		Map<Integer, Set<Integer>> map = new HashMap<Integer, Set<Integer>>();
-		Set<Integer> set = new HashSet<Integer>();
+		Map<Integer, Set<Integer>> map = new HashMap<>();
+		Set<Integer> set = new HashSet<>();
 		
 		set.add(element);
 		map.put(element, set);
@@ -40,9 +40,7 @@ public class DisjointSets {
 		Set<Integer> first_set = null;
 		Set<Integer> second_set = null;
 
-		for (int index = 0; index < disjointSet.size(); index++) {
-			Map<Integer, Set<Integer>> map = disjointSet.get(index);
-			
+		for (Map<Integer, Set<Integer>> map : disjointSet) {
 			if (map.containsKey(first_rep)) {
 				first_set = map.get(first_rep);
 			} else if (map.containsKey(second_rep)) {
@@ -64,13 +62,11 @@ public class DisjointSets {
 				disjointSet.remove(index);
 			}
 		}
-		return;
 	}
 
 	public int find_set(int element) {
 
-		for (int index = 0; index < disjointSet.size(); index++) {
-			Map<Integer, Set<Integer>> map = disjointSet.get(index);
+		for (Map<Integer, Set<Integer>> map : disjointSet) {
 			Set<Integer> keySet = map.keySet();
 
 			for (Integer key : keySet) {

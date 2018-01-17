@@ -17,7 +17,7 @@ public class SpiralBacktrackerGen {
 	
 	private static final int STEP_COUNT = 4; // change this to generate different mazes.
 
-	private final Stack<Cell> stack = new Stack<Cell>();
+	private final Stack<Cell> stack = new Stack<>();
 	private final List<Cell> grid;
 	private final Random r = new Random();
 	
@@ -29,21 +29,18 @@ public class SpiralBacktrackerGen {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 
@@ -73,7 +70,7 @@ public class SpiralBacktrackerGen {
 			count++;
 		} else {
 			count = 0; // reset count
-			List<Integer> directions = new ArrayList<Integer>();
+			List<Integer> directions = new ArrayList<>();
 			// get valid directions
 			if(neighs.contains(current.getTopNeighbour(grid))) {
 				directions.add(0);

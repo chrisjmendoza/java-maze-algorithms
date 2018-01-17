@@ -13,8 +13,8 @@ import util.Cell;
 
 public class BiDFSSolve {
 
-	private final Stack<Cell> path1 = new Stack<Cell>();
-	private final Stack<Cell> path2 = new Stack<Cell>();
+	private final Stack<Cell> path1 = new Stack<>();
+	private final Stack<Cell> path2 = new Stack<>();
 	private Cell current1, current2;
 	private final List<Cell> grid;
 
@@ -23,24 +23,21 @@ public class BiDFSSolve {
 		current1 = grid.get(0);
 		current2 = grid.get(grid.size() - 1);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!pathFound()) {	
-					pathFromEnd();
-					pathFromStart();
-				} else {
-					current1 = null;
-					current2 = null;
-					Maze.solved = true;
-					drawPath();
-					timer.stop();
-				}
-				panel.setCurrentCells(Arrays.asList(current1, current2));
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (pathFound()) {
+                pathFromEnd();
+                pathFromStart();
+            } else {
+                current1 = null;
+                current2 = null;
+                Maze.solved = true;
+                drawPath();
+                timer.stop();
+            }
+            panel.setCurrentCells(Arrays.asList(current1, current2));
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 
@@ -83,7 +80,7 @@ public class BiDFSSolve {
 				path1.push(current1);
 				path1.push(c);
 				joinPaths(c, path2, current2);
-				return true;
+				return false;
 			}
 		}
 		for (Cell c : neighs2) {
@@ -92,10 +89,10 @@ public class BiDFSSolve {
 				path2.push(current2);
 				path2.push(c);
 				joinPaths(c, path1, current1);
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	private void joinPaths(Cell c, Stack<Cell> path, Cell current) {

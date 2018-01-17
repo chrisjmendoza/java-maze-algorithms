@@ -16,9 +16,9 @@ import util.Cell;
 
 public class HoustonGen {
 
-	private final Stack<Cell> stack = new Stack<Cell>();
+	private final Stack<Cell> stack = new Stack<>();
 	private final List<Cell> grid;
-	private List<Cell> visited = new ArrayList<Cell>();
+	private List<Cell> visited = new ArrayList<>();
 	private Cell current;
 	private final Random r = new Random();
 
@@ -26,27 +26,24 @@ public class HoustonGen {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	
 	private void carve() {
 		if (visited.size() <= grid.size() / 3) {
-			visited = grid.parallelStream().filter(c -> c.isVisited()).collect(Collectors.toList());
+			visited = grid.parallelStream().filter(Cell::isVisited).collect(Collectors.toList());
 			aldousBroder();
 		} else {
 			wilson();
@@ -89,7 +86,7 @@ public class HoustonGen {
 	}
 	
 	private void addPathToMaze() {
-		grid.parallelStream().filter(c -> c.isPath()).forEach(c -> {
+		grid.parallelStream().filter(Cell::isPath).forEach(c -> {
 			c.setVisited(true); 
 			c.setPath(false);
 		});

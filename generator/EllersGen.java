@@ -42,27 +42,24 @@ public class EllersGen {
 		}
 		
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (genNextCol) {
-					currentCol = grid.subList(fromIndex, toIndex);
-					fromIndex = toIndex;
-					toIndex += COLS;
-					new ColumnGen(currentCol, panel);
-				} else if (grid.parallelStream().allMatch(c -> c.isVisited())) {
-					Maze.generated = true;
-					timer.stop();
-				}
-			}
-		});
+		timer.addActionListener(e -> {
+            if (genNextCol) {
+                currentCol = grid.subList(fromIndex, toIndex);
+                fromIndex = toIndex;
+                toIndex += COLS;
+                new ColumnGen(currentCol, panel);
+            } else if (grid.parallelStream().allMatch(c -> c.isVisited())) {
+                Maze.generated = true;
+                timer.stop();
+            }
+        });
 		timer.start();
 	}
 	
 	private class ColumnGen {
 		
-		private final Queue<Cell> carveDownQueue = new LinkedList<Cell>();
-		private final Queue<Cell> carveRightQueue = new LinkedList<Cell>();
+		private final Queue<Cell> carveDownQueue = new LinkedList<>();
+		private final Queue<Cell> carveRightQueue = new LinkedList<>();
 		private final List<Cell> col;
 		private final Random r = new Random();
 		private Cell current;
@@ -74,23 +71,20 @@ public class EllersGen {
 			carveRightQueue.addAll(col);
 			
 			final Timer timer = new Timer(Maze.speed, null);
-			timer.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					if (!carveDownQueue.isEmpty()) {
-						carveDown();
-					} else if (!carveRightQueue.isEmpty()) {
-						carveRight();
-					} else {
-						current = null;
-						genNextCol = true;
-						timer.stop();
-					}
-					panel.setCurrent(current);
-					panel.repaint();
-					timer.setDelay(Maze.speed);
-				}
-			});
+			timer.addActionListener(e -> {
+                if (!carveDownQueue.isEmpty()) {
+                    carveDown();
+                } else if (!carveRightQueue.isEmpty()) {
+                    carveRight();
+                } else {
+                    current = null;
+                    genNextCol = true;
+                    timer.stop();
+                }
+                panel.setCurrent(current);
+                panel.repaint();
+                timer.setDelay(Maze.speed);
+            });
 			timer.start();
 		}
 		
@@ -112,7 +106,7 @@ public class EllersGen {
 		private void carveRight() {
 			Cell c = carveRightQueue.poll();
 			
-			List<Cell> cells = new ArrayList<Cell>();
+			List<Cell> cells = new ArrayList<>();
 			for (Cell c2 : col) {
 				if (disjointSet.find_set(c.getId()) == disjointSet.find_set(c2.getId())) {
 					cells.add(c2);

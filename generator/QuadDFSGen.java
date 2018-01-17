@@ -17,40 +17,37 @@ public class QuadDFSGen {
 
 	private final List<Cell> grid;
 
-	private final List<Cell> currentCells = new ArrayList<Cell>(4);
-	private final List<Stack<Cell>> stacks = new ArrayList<Stack<Cell>>(4);
-	private final List<List<Cell>> grids = new ArrayList<List<Cell>>(4);
-	private final Random r = new Random();
+	private final List<Cell> currentCells = new ArrayList<>(4);
+	private final List<Stack<Cell>> stacks = new ArrayList<>(4);
+	private final List<List<Cell>> grids = new ArrayList<>(4);
 
 	public QuadDFSGen(List<Cell> grid, MazeGridPanel panel) {
 		this.grid = grid;
 		currentCells.add(grid.get(0));
 		currentCells.add(grid.get(grid.size() - 1));
+		Random r = new Random();
 		currentCells.add(grid.get(r.nextInt(grid.size())));
 		currentCells.add(grid.get(r.nextInt(grid.size())));
 		
 		for (int i = 0; i < 4; i++) {
-			stacks.add(new Stack<Cell>());
-			grids.add(new ArrayList<Cell>());
+			stacks.add(new Stack<>());
+			grids.add(new ArrayList<>());
 		}
 		
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					createPath();
-					currentCells.clear();
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrentCells(currentCells);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                createPath();
+                currentCells.clear();
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrentCells(currentCells);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 

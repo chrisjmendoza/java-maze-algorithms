@@ -19,21 +19,18 @@ public class HuntAndKillGen {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 
@@ -47,9 +44,7 @@ public class HuntAndKillGen {
 			// hunt
 			Optional<Cell> opt = grid.parallelStream().filter(c -> c.isVisited() && c.getUnvisitedNeighboursList(grid).size() > 0)
 					.findAny();
-			if (opt.isPresent()) {
-				current = opt.get();
-			}
+			opt.ifPresent(cell -> current = cell);
 		}
 	}
 }

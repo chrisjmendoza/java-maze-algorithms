@@ -15,28 +15,25 @@ import util.Cell;
 public class PrimsGen {
 	
 	private final List<Cell> grid;
-	private final List<Cell> frontier = new ArrayList<Cell>();
+	private final List<Cell> frontier = new ArrayList<>();
 	private Cell current;
 
 	public PrimsGen(List<Cell> grid, MazeGridPanel panel) {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	
@@ -57,6 +54,6 @@ public class PrimsGen {
 			current.removeWalls(inNeighs.get(0));
 		}
 		
-		frontier.removeIf(c -> c.isVisited());
+		frontier.removeIf(Cell::isVisited);
 	}
 }

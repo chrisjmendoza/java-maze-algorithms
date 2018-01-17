@@ -20,26 +20,23 @@ public class DijkstraSolve {
 
 	public DijkstraSolve(List<Cell> grid, MazeGridPanel panel) {
 		this.grid = grid;
-		queue = new PriorityQueue<Cell>(new CellDistanceFromGoalComparator());
+		queue = new PriorityQueue<>(new CellDistanceFromGoalComparator());
 		current = grid.get(0);
 		current.setDistance(0);
 		queue.offer(current);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!current.equals(grid.get(grid.size() - 1))) {
-					flood();
-				} else {
-					drawPath();
-					Maze.solved = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!current.equals(grid.get(grid.size() - 1))) {
+                flood();
+            } else {
+                drawPath();
+                Maze.solved = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	
@@ -64,7 +61,7 @@ public class DijkstraSolve {
 	}
 	
 	private class CellDistanceFromGoalComparator implements Comparator<Cell> {
-		Cell goal = grid.get(grid.size() - 1);
+		final Cell goal = grid.get(grid.size() - 1);
 		
 		@Override
 		public int compare(Cell arg0, Cell arg1) {

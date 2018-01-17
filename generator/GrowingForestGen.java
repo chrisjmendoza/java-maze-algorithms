@@ -17,7 +17,7 @@ import util.DisjointSets;
 public class GrowingForestGen {
 	
 	private final List<Cell> grid;
-	private final List<Cell> active = new ArrayList<Cell>();
+	private final List<Cell> active = new ArrayList<>();
 	private final DisjointSets disjointSet = new DisjointSets();
 	
 	private Cell current;
@@ -34,21 +34,18 @@ public class GrowingForestGen {
 		active.add(current);
 		
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!active.isEmpty()) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!active.isEmpty()) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	

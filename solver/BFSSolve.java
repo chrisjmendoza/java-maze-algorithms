@@ -13,7 +13,7 @@ import util.Cell;
 
 public class BFSSolve {
 	
-	private final Queue<Cell> queue = new LinkedList<Cell>();
+	private final Queue<Cell> queue = new LinkedList<>();
 	private Cell current;
 	private final List<Cell> grid;
 
@@ -23,21 +23,18 @@ public class BFSSolve {
 		current.setDistance(0);
 		queue.offer(current);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!current.equals(grid.get(grid.size() - 1))) {
-					flood();
-				} else {
-					drawPath();
-					Maze.solved = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!current.equals(grid.get(grid.size() - 1))) {
+                flood();
+            } else {
+                drawPath();
+                Maze.solved = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	

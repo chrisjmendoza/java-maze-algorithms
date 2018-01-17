@@ -10,7 +10,10 @@ import main.Maze;
 
 public class Cell {
 
-	private int x, y, distance, id;
+	private final int x;
+	private final int y;
+	private int distance;
+	private int id;
 	
 	private Cell parent;
 	
@@ -171,7 +174,7 @@ public class Cell {
 	// Used for Wilson's algorithm
 	public Cell getNonPathNeighbour(List<Cell> grid) {
 
-		List<Cell> neighbours = new ArrayList<Cell>(4);
+		List<Cell> neighbours = new ArrayList<>(4);
 		
 		Cell top = checkNeighbourInGridBounds(grid, new Cell(x, y - 1));
 		Cell right = checkNeighbourInGridBounds(grid, new Cell(x + 1, y));
@@ -201,7 +204,7 @@ public class Cell {
 	
 	public List<Cell> getUnvisitedNeighboursList(List<Cell> grid) {
 		
-		List<Cell> neighbours = new ArrayList<Cell>(4);
+		List<Cell> neighbours = new ArrayList<>(4);
 		
 		Cell top = checkNeighbourInGridBounds(grid, new Cell(x, y - 1));
 		Cell right = checkNeighbourInGridBounds(grid, new Cell(x + 1, y));
@@ -218,7 +221,7 @@ public class Cell {
 	
 	// no walls between
 	public List<Cell> getValidMoveNeighbours(List<Cell> grid) {
-		List<Cell> neighbours = new ArrayList<Cell>(4);
+		List<Cell> neighbours = new ArrayList<>(4);
 		
 		Cell top = checkNeighbourInGridBounds(grid, new Cell(x, y - 1));
 		Cell right = checkNeighbourInGridBounds(grid, new Cell(x + 1, y));
@@ -246,7 +249,7 @@ public class Cell {
 	
 	// used for DFS solving, gets a neighbour that could potentially be part of the solution path.
 	public Cell getPathNeighbour(List<Cell> grid) {
-		List<Cell> neighbours = new ArrayList<Cell>();
+		List<Cell> neighbours = new ArrayList<>();
 		
 		Cell top = checkNeighbourInGridBounds(grid, new Cell(x, y - 1));
 		Cell right = checkNeighbourInGridBounds(grid, new Cell(x + 1, y));
@@ -285,7 +288,7 @@ public class Cell {
 	}
 	
 	public List<Cell> getAllNeighbours(List<Cell> grid) {
-		List<Cell> neighbours = new ArrayList<Cell>();
+		List<Cell> neighbours = new ArrayList<>();
 		
 		Cell top = checkNeighbourInGridBounds(grid, new Cell(x, y - 1));
 		Cell right = checkNeighbourInGridBounds(grid, new Cell(x + 1, y));
@@ -334,10 +337,6 @@ public class Cell {
 		if (getClass() != obj.getClass())
 			return false;
 		Cell other = (Cell) obj;
-		if (x != other.x)
-			return false;
-		if (y != other.y)
-			return false;
-		return true;
+		return x == other.x && y == other.y;
 	}
 }

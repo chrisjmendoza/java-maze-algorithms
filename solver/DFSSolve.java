@@ -15,7 +15,7 @@ import util.Cell;
 
 public class DFSSolve {
 
-	private final Stack<Cell> path = new Stack<Cell>();
+	private final Stack<Cell> path = new Stack<>();
 	private Cell current;
 	private final List<Cell> grid;
 
@@ -23,21 +23,18 @@ public class DFSSolve {
 		this.grid = grid;
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!current.equals(grid.get(grid.size() - 1))) {
-					path();
-				} else {
-					drawPath();
-					Maze.solved = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!current.equals(grid.get(grid.size() - 1))) {
+                path();
+            } else {
+                drawPath();
+                Maze.solved = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 

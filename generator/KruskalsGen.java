@@ -18,7 +18,7 @@ import util.DisjointSets;
 
 public class KruskalsGen {
 
-	private final Stack<Cell> stack = new Stack<Cell>();
+	private final Stack<Cell> stack = new Stack<>();
 	private final DisjointSets disjointSet = new DisjointSets();
 	private final List<Cell> grid;
 	private Cell current;
@@ -35,21 +35,18 @@ public class KruskalsGen {
 		stack.addAll(grid);
 		
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 

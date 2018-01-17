@@ -15,7 +15,7 @@ import util.Cell;
 public class SidewinderGen {
 
 	private final List<Cell> grid;
-	private final List<Cell> run = new ArrayList<Cell>();
+	private final List<Cell> run = new ArrayList<>();
 	private Cell current;
 	private int index;
 	private final Random r = new Random();
@@ -25,21 +25,18 @@ public class SidewinderGen {
 		index = 0;
 		current = grid.get(index);
 		final Timer timer = new Timer(Maze.speed, null);
-		timer.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
-					carve();
-				} else {
-					current = null;
-					Maze.generated = true;
-					timer.stop();
-				}
-				panel.setCurrent(current);
-				panel.repaint();
-				timer.setDelay(Maze.speed);
-			}
-		});
+		timer.addActionListener(e -> {
+            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+                carve();
+            } else {
+                current = null;
+                Maze.generated = true;
+                timer.stop();
+            }
+            panel.setCurrent(current);
+            panel.repaint();
+            timer.setDelay(Maze.speed);
+        });
 		timer.start();
 	}
 	

@@ -8,18 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Hashtable;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 public class Maze {
 
@@ -36,28 +26,26 @@ public class Maze {
 			"12. Spiral Backtracker", "13. Wilson's", "14. Zig-Zag"};
 	private static final String[] SOLVING_METHODS = {"0. Bi-directional DFS", "1. BFS", "2. DFS", "3. Dijkstra's"};
 
-	private int cols, rows;
+	private final int cols;
+	private final int rows;
 
 	public static void main(String[] args) {
 		new Maze();
 	}
 
-	public Maze() {
+	private Maze() {
 		cols = Math.floorDiv(WIDTH, W);
 		rows = cols;
 
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException ex) {
-					ex.printStackTrace();
-				}
-				createAndShowGUI();
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                    | UnsupportedLookAndFeelException ex) {
+                ex.printStackTrace();
+            }
+            createAndShowGUI();
+        });
 	}
 
 	private void createAndShowGUI() {
@@ -66,7 +54,7 @@ public class Maze {
 		JPanel container = new JPanel();
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		frame.setContentPane(container);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 		MazeGridPanel grid = new MazeGridPanel(rows, cols);
 		grid.setBackground(Color.BLACK);
@@ -99,7 +87,7 @@ public class Maze {
         JSlider genSpeedSlider = new JSlider(JSlider.HORIZONTAL, 1, 40, 1);
         JSlider solveSpeedSlider = new JSlider(JSlider.HORIZONTAL, 1, 40, 1);
         
-        Hashtable<Integer, JLabel> labels = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> labels = new Hashtable<>();
         labels.put(1, new JLabel("Fast"));
         labels.put(40, new JLabel("Slow"));
 
@@ -122,9 +110,9 @@ public class Maze {
 		card1.setLayout(new GridBagLayout());
 		card2.setLayout(new GridBagLayout());
 		
-	    GridBagConstraints c = new GridBagConstraints();;
-	 
-	    c.insets = new Insets(5, 0, 5, 18);
+	    GridBagConstraints c = new GridBagConstraints();
+
+        c.insets = new Insets(5, 0, 5, 18);
 	    c.fill = GridBagConstraints.BOTH;
 	    c.weightx = 0.7;
 	    c.gridx = 0;
@@ -168,13 +156,9 @@ public class Maze {
 		
 		container.add(cards);
 		
-		genSpeedSlider.addChangeListener(event -> {
-			speed = genSpeedSlider.getValue();
-		});
+		genSpeedSlider.addChangeListener(event -> speed = genSpeedSlider.getValue());
 		
-		solveSpeedSlider.addChangeListener(event -> {
-			speed = solveSpeedSlider.getValue();
-		});
+		solveSpeedSlider.addChangeListener(event -> speed = solveSpeedSlider.getValue());
 		
 		runButton.addActionListener(event -> {
 			 speed = initialSpeedSlider.getValue();
