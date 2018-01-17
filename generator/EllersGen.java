@@ -1,7 +1,5 @@
 package generator;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -26,7 +24,8 @@ public class EllersGen {
 	private final DisjointSets disjointSet = new DisjointSets();
 	
 	private static final int COLS = Math.floorDiv(Maze.WIDTH, Maze.W);
-	private int fromIndex, toIndex;
+	private final int fromIndex;
+    private final int toIndex;
 	
 	private boolean genNextCol = true;
 
@@ -48,7 +47,7 @@ public class EllersGen {
                 fromIndex = toIndex;
                 toIndex += COLS;
                 new ColumnGen(currentCol, panel);
-            } else if (grid.parallelStream().allMatch(c -> c.isVisited())) {
+            } else if (grid.parallelStream().allMatch(Cell::isVisited)) {
                 Maze.generated = true;
                 timer.stop();
             }

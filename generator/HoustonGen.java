@@ -1,7 +1,5 @@
 package generator;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,7 +25,7 @@ public class HoustonGen {
 		current = grid.get(0);
 		final Timer timer = new Timer(Maze.speed, null);
 		timer.addActionListener(e -> {
-            if (!grid.parallelStream().allMatch(c -> c.isVisited())) {
+            if (!grid.parallelStream().allMatch(Cell::isVisited)) {
                 carve();
             } else {
                 current = null;
