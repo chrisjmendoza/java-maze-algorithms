@@ -24,8 +24,8 @@ public class EllersGen {
 	private final DisjointSets disjointSet = new DisjointSets();
 	
 	private static final int COLS = Math.floorDiv(Maze.WIDTH, Maze.W);
-	private final int fromIndex;
-    private final int toIndex;
+	private int fromIndex;
+    private int toIndex;
 	
 	private boolean genNextCol = true;
 
